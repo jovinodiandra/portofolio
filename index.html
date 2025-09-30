@@ -115,6 +115,59 @@
             color: var(--accent)
         }
 
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+
+        .hamburger span {
+            width: 26px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 3px;
+            transition: 0.3s;
+        }
+
+        /* Animasi saat aktif */
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Mobile nav */
+        @media (max-width: 768px) {
+            nav {
+                position: absolute;
+                top: 64px;
+                right: 0;
+                background: rgba(11, 18, 32, 0.95);
+                backdrop-filter: blur(6px);
+                flex-direction: column;
+                width: 200px;
+                padding: 1rem;
+                border-radius: 0 0 0 12px;
+                display: none;
+            }
+
+            nav.show {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+        }
+
+
         /* SECTION */
         section {
             padding: 4rem 0
@@ -462,6 +515,7 @@
 
             .logo-container h1 {
                 font-size: 18px;   /* perkecil biar muat */
+                padding-bottom: 2rem;
                 white-space: normal; /* biar bisa turun ke bawah kalau kepanjangan */
                 text-align: left;
             }
@@ -481,13 +535,22 @@
                 <div style="font-size:.78rem;color:var(--muted)">Junior Java Developer</div>
             </div>
         </div>
-        <nav>
+
+        <!-- Hamburger untuk HP -->
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav id="navMenu">
             <a href="#home">Home</a>
             <a href="#about">About</a>
             <a href="#projects">Projects</a>
             <a href="#contact">Contact</a>
         </nav>
     </div>
+
 </header>
 
 <main class="container">
@@ -721,6 +784,24 @@
 
     // Start auto
     startAutoSlide();
+</script>
+
+<script>
+    const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("navMenu");
+
+    hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        navMenu.classList.toggle("show");
+    });
+
+    // Tutup menu saat klik link
+    document.querySelectorAll("nav a").forEach(link => {
+        link.addEventListener("click", () => {
+            hamburger.classList.remove("active");
+            navMenu.classList.remove("show");
+        });
+    });
 </script>
 
 
